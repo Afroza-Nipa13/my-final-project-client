@@ -5,11 +5,12 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { FaEye, FaTrashAlt, FaCreditCard } from "react-icons/fa";
 import { format } from 'date-fns';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const MyParcels = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-
+    const navigate = useNavigate();
     const { data: parcels = [],refetch, isLoading } = useQuery({
         queryKey: ['my-parcels', user.email],
         queryFn: async () => {
@@ -17,7 +18,15 @@ const MyParcels = () => {
             return res.data;
         }
     });
-
+    // view function
+    const handleView=(id) => {
+        console.log( 'view parcel', id)
+    }
+    // pay function
+    const handlePay=(id)=>{
+        console.log("pay for parcel", id)
+        navigate(`/dashboard/payment/${id}`)
+    }
 
 
     // delete function
@@ -83,22 +92,33 @@ const MyParcels = () => {
                                     <td>{format(new Date(parcel.creation_date), 'PPP p')}</td>
                                     <td className="font-semibold text-right">৳{parcel.cost}</td>
                                     <td>
-                                        {parcel.payment_status === 'paid' ? (
+                                        {parcel.paymentStatus === 'paid' ? (
                                             <span className="badge badge-success gap-2">
                                                 <FaCreditCard /> Paid
                                             </span>
                                         ) : (
-                                            <span className="badge badge-warning gap-2 text-white">
-                                                <FaCreditCard /> Unpaid
-                                            </span>
+                                            
+                                                <span
+                                    className={`badge ${parcel.paymentStatus === "paid"
+                                        ? "badge-success"
+                                        : "badge-error"
+                                        }`}
+                                >
+                                   <FaCreditCard />  {parcel.payment_status}
+                                </span>
+                               
                                         )}
                                     </td>
                                     <td className="flex gap-2">
-                                        <button className="btn btn-sm btn-info text-white tooltip" data-tip="View">
+                                        <button 
+                                        onClick={()=>handleView(parcel._id)}
+                                        className="btn btn-sm btn-info text-white tooltip" data-tip="View">
                                             <FaEye />
                                         </button>
                                         {parcel.payment_status === 'unpaid' && (
-                                            <button className="btn btn-sm btn-success text-white tooltip" data-tip="Pay">
+                                            <button
+                                            onClick={()=>handlePay(parcel._id)}
+                                            className="btn btn-sm btn-success text-white tooltip" data-tip="Pay">
                                                 <FaCreditCard />
                                             </button>
                                         )}

@@ -9,6 +9,9 @@ import SendParcel from "../Pages/Home/SendParcel/SendParcel";
 import PrivetRoute from "../routes/PrivetRoute";
 import DashbordLayOut from "../LayOuts/DashbordLayOut";
 import MyParcels from "../Pages/Dashboard/MyParcels";
+import Payment from "../Pages/Dashboard/Payment/Payment";
+import PaymentHistory from "../Pages/Dashboard/Payment/PaymentHistory";
+import TrackParcel from "../Pages/Dashboard/TrackParcel/TrackParcel";
 
 
 export const router = createBrowserRouter([
@@ -45,6 +48,16 @@ export const router = createBrowserRouter([
     children:[
       { path:'myParcels',
         Component:MyParcels
+      },
+      { path:'payment/:parcelId',
+        Component:Payment
+      },
+      { path:'paymentHistory',
+        Component:PaymentHistory
+      },
+      {
+        path: 'track',
+        Component:TrackParcel
       }
     ]
   }
