@@ -3,15 +3,28 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import React from 'react';
 import { auth } from '../Firebase/firebase.init';
 import { useLocation, useNavigate } from 'react-router';
+import useAxios from '../Hooks/useAxios';
 
 const provider = new GoogleAuthProvider();
 const SocialLogin = () => {
     const location = useLocation()
     const navigate = useNavigate()
+    const axiosInstance=useAxios();
     const from = location.state?.from || "/";
 const handleGoogleLogin = () =>{
-    signInWithPopup(auth, provider).then(result=>{
-        console.log(result)
+    signInWithPopup(auth, provider).then(async(result)=>{
+        const user = result.user;
+        // update profile to db
+            const userInfo={
+                email: user.email,
+                role: "user",
+                createdAt:new Date().toISOString(),
+                lastLogIn: new Date().toISOString()
+
+            }
+        const res=await axiosInstance.post('/users', userInfo)
+        console.log("user update in google login", res.data)
+
         navigate(from)
     }).catch(error=>{
         console.log(error)

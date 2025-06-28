@@ -34,7 +34,7 @@ const NavBar = () => {
       </>
     }
     <NavLink to='/'><li>Pricing</li></NavLink>
-    <NavLink to='/'><li>Be a Rider</li></NavLink>
+    <NavLink to='/be-a-rider'><li>Be a Rider</li></NavLink>
   </>
   return (
     <div className="navbar bg-base-100 shadow-sm">
