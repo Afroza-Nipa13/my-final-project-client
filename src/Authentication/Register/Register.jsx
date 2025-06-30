@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth';
 import SocialLogin from '../SocialLogin';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import axios from 'axios';
 import useAxios from '../../Hooks/useAxios';
 
@@ -11,6 +11,9 @@ const Register = () => {
     const { handleSubmit, register, formState: { errors } } = useForm();
     const { createUser, updateUserProfile } = useAuth()
     const axiosInstance = useAxios()
+     const location = useLocation();
+        const navigate = useNavigate();
+        const from = location.state?.from || '/';
     const onSubmit = data => {
         console.log(data)
         createUser(data.email, data.password).then(async(result) => {
@@ -34,6 +37,8 @@ const Register = () => {
             updateUserProfile(userProfile)
                 .then(() => {
                     console.log("profile updated")
+                    navigate(from)
+
                 }).catch((error) => {
                     console.log(error)
                 })

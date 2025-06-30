@@ -96,7 +96,7 @@ const SendParcel = () => {
                     ...data,
                     cost: totalCost,
                     created_by: user.email,
-                    payment_status: 'unpaid',
+                    paymentStatus: 'unpaid',
                     delivery_status: 'not_collected',
                     creation_date: new Date().toISOString(),
                     tracking_id: generateTrackingID(),

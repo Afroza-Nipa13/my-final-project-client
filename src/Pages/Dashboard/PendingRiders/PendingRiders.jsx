@@ -103,13 +103,13 @@ const handleAction=async(id,action,email)=>{
                     View
                   </button>
                   <button
-                    onClick={() => handleAction(rider._id, 'approve')}
+                    onClick={() => handleAction(rider._id, 'approve',rider.email)}
                     className="btn btn-sm btn-success"
                   >
                     Approve
                   </button>
                   <button
-                    onClick={() => handleAction(rider._id, 'cancel')}
+                    onClick={() => handleAction(rider._id, 'cancel',rider.email)}
                     className="btn btn-sm btn-error"
                   >
                     Reject

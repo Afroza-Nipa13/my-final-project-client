@@ -1,10 +1,13 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router';
 import Logo from '../Shared/Logo/Logo';
-import { FaBoxOpen, FaHistory, FaHome, FaSearchLocation, FaUserEdit } from 'react-icons/fa';
+import { FaBoxOpen, FaHistory, FaHome, FaSearchLocation, FaUserCheck, FaUserEdit } from 'react-icons/fa';
 import { ClockIcon, UsersIcon } from 'lucide-react';
+import useUserRole from '../Hooks/useUserRole';
 
 const DashbordLayOut = () => {
+  const { role, roleLoading } = useUserRole();
+  console.log(role, roleLoading)
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -57,12 +60,7 @@ const DashbordLayOut = () => {
               Payment History
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/dashboard/track" className="flex items-center gap-2">
-              <FaSearchLocation />
-              Track a Package
-            </NavLink>
-          </li>
+
           <li>
             <NavLink to="/dashboard/profile" className="flex items-center gap-2">
               <FaUserEdit />
@@ -70,18 +68,44 @@ const DashbordLayOut = () => {
             </NavLink>
           </li>
           {/* riders link */}
-          <li>
-            <NavLink to="/dashboard/active-riders">
-              <UsersIcon className="w-4 h-4" />
-              Active Riders
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/pending-riders">
-              <ClockIcon className="w-4 h-4" />
-              Pending Riders
-            </NavLink>
-          </li>
+          {!roleLoading && role === "admin" &&
+            <>
+
+              <li>
+                <NavLink to="/dashboard/assign-rider" className="flex items-center gap-2">
+                  <FaUserCheck />
+                  Assign Rider
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/dashboard/active-riders">
+                  <UsersIcon className="w-4 h-4" />
+                  Active Riders
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/pending-riders">
+                  <ClockIcon className="w-4 h-4" />
+                  Pending Riders
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/track" className="flex items-center gap-2">
+                  <FaSearchLocation />
+                  Track a Package
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/dashboard/admin-manager"
+                  className='space-x-2'
+                >
+                  👑 Admin Manager
+                </NavLink>
+              </li>
+            </>
+          }
         </ul>
       </div>
     </div>

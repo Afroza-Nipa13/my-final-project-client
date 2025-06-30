@@ -13,7 +13,7 @@ const LogIn = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const from = location.state?.from?.pathname || '/';
+    const from = location.state?.from || '/';
     console.log(location.state)
     const onSubmit = data => {
         console.log(data)
@@ -60,7 +60,9 @@ const LogIn = () => {
                         <p className='text-red-600' role="alert">"password is must be 6 characters or longer.."</p>}
                     <div><a className="link link-hover">Forgot password?</a></div>
                     <button className="btn btn-neutral mt-4">Login</button>
-                    <p>New to our website? please <Link to='/register' className='link link-error'>Register</Link></p>
+                    <p>New to our website? please <Link 
+                    state={{from}}
+                    to='/register' className='link link-error'>Register</Link></p>
                 </fieldset>
             </form>
 
