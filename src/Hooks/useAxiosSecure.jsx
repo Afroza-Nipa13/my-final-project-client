@@ -1,40 +1,46 @@
 import React from 'react';
-import axios from "axios"
+import axios from "axios";
+
+import { useNavigate } from 'react-router';
 import useAuth from './useAuth';
-import { Navigate, useNavigate } from 'react-router';
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:3000',
-  
-})
+  baseURL: 'http://localhost:3000',
+});
+
 const useAxiosSecure = () => {
-    const {user,logOut}= useAuth()
-    const navigate = useNavigate()
-    axiosSecure.interceptors.request.use(config => {
-        config.headers.Authorization = `Bearer ${user.accessToken}`
-        return config;
-    }, error =>{
-        return Promise.reject(error);
-    })
+  const { user, logOut } = useAuth();
+  console.log(user)
+  const navigate = useNavigate();
 
-    axiosSecure.interceptors.response.use(res=>{
-        return res;
-    },error=>{
-       const status =error.status;
-        if(status === 403){
-            return navigate('/forbidden')
-        }
-        else if(status === 401){
-            logOut().then(()=>{
-                navigate('/login')
-            }).catch(()=>{
+  axiosSecure.interceptors.request.use(async (config) => {
+    if (user) {
 
-            })
-        }
-        return Promise.reject(error)
-    })
-    
-    return axiosSecure;
+      // ✅ This gets the correct Firebase token
+      config.headers.Authorization = `Bearer ${user.accessToken}`;
+    }
+    return config;
+  }, (error) => {
+    return Promise.reject(error);
+  });
+
+  axiosSecure.interceptors.response.use(
+    (res) => res,
+    async (error) => {
+      const status = error?.response?.status;
+
+      if (status === 403) {
+        navigate('/forbidden');
+      } else if (status === 401) {
+        await logOut();
+        navigate('/login');
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
+  return axiosSecure;
 };
 
 export default useAxiosSecure;

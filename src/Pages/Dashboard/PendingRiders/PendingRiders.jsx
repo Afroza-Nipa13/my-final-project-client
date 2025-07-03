@@ -46,30 +46,34 @@ const handleAction=async(id,action,email)=>{
     cancelButtonText: 'No, go back',
   });
   if (result.isConfirmed) {
-    try{
-       const status = action === "approve" ? "active" : "rejected"
-            await axiosSecure.patch(`/riders/${id}/status`, {
-                status,
-                email
-            });
-            refetch()
+     try {
+      if (action === 'approve') {
+        await axiosSecure.patch(`/riders/${id}/status`, {
+          status: 'active',
+          email,
+        });
         toast.success('✅ Rider approved!');
-    //   } else if (action === 'cancel') {
-    //     await axiosSecure.delete(`/riders/${id}`);
-    //     toast.success('❌ Rider application cancelled!');
-    //   }
+      } else if (action === 'cancel') {
+        await axiosSecure.patch(`/riders/${id}/status`, {
+          status: 'rejected',
+          email,
+        });
+        toast.success('❌ Rider rejected!');
+      }
+
       refetch();
     } catch (error) {
       console.error(error);
       toast.error('⚠️ Action failed!');
     }
-  }
+    }
+    
 };
 
-
+if(isLoading) return <Loader></Loader>
   
 
-  if (isLoading) return <Loader></Loader>;
+ 
 
   return (
     <div className="p-4">

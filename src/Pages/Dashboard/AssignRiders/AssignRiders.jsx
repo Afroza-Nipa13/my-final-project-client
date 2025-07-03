@@ -37,6 +37,7 @@ const AssignRider = () => {
                 riderEmail: rider.email,
                 riderName: rider.name,
             });
+            console.log(res)
             return res.data;
         },
         onSuccess: async () => {
@@ -62,13 +63,14 @@ const AssignRider = () => {
         setSelectedParcel(parcel);
         setLoadingRiders(true);
         setRiders([]);
-
+        console.log(parcel)
         try {
             const res = await axiosSecure.get("/riders/available", {
                 params: {
                     district: parcel.sender_center, // match with rider.district
                 },
             });
+            console.log(res.data)
             setRiders(res.data);
         } catch (error) {
             console.error("Error fetching riders", error);

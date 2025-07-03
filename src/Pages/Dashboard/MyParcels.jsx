@@ -104,7 +104,7 @@ const MyParcels = () => {
                                         : "badge-error"
                                         }`}
                                 >
-                                   <FaCreditCard />  {parcel.payment_status}
+                                   <FaCreditCard />  {parcel.paymentStatus}
                                 </span>
                                
                                         )}
@@ -115,13 +115,14 @@ const MyParcels = () => {
                                         className="btn btn-sm btn-info text-white tooltip" data-tip="View">
                                             <FaEye />
                                         </button>
-                                        {parcel.payment_status === 'unpaid' && (
+                                        {parcel.paymentStatus === 'unpaid' && (
                                             <button
                                             onClick={()=>handlePay(parcel._id)}
                                             className="btn btn-sm btn-success text-white tooltip" data-tip="Pay">
-                                                <FaCreditCard />
+                                                <FaCreditCard /> Pay
                                             </button>
                                         )}
+                                        {console.log(parcel.paymentStatus)}
                                         <button
                                             onClick={() => handleDelete(parcel._id)}
                                             className="btn btn-sm btn-error text-white tooltip"
