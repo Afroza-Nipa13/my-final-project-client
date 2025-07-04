@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router';
 import Logo from '../Shared/Logo/Logo';
-import { FaBoxOpen, FaHistory, FaHome, FaSearchLocation, FaTruck, FaUserCheck, FaUserEdit } from 'react-icons/fa';
+import { FaBoxOpen, FaCheckCircle, FaHistory, FaHome, FaMoneyBillWave, FaSearchLocation, FaTruck, FaUserCheck, FaUserEdit } from 'react-icons/fa';
 import { ClockIcon, UsersIcon } from 'lucide-react';
 import useUserRole from '../Hooks/useUserRole';
 
@@ -76,6 +76,21 @@ const DashbordLayOut = () => {
                   Pending Deliveries
                 </NavLink>
               </li>
+
+              <li>
+                <NavLink to="/dashboard/completed-deliveries" className="flex items-center gap-2">
+                  <FaCheckCircle />
+                  Completed Deliveries
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/dashboard/my-earnings" className="flex items-center gap-2">
+                  <FaMoneyBillWave />
+                  My Earnings
+                </NavLink>
+              </li>
+
 
             </>
           }
